@@ -6,7 +6,8 @@ class Resource(object):
         self.content = content
 
     exposed = True
-
+    
+    @expose
     def test(self):
         return self
 
