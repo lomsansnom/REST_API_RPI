@@ -7,7 +7,7 @@ class Resource(object):
 
     exposed = True
 
-    def GET(self):
+    def test(self):
         return self
 
     def PUT(self):
@@ -42,9 +42,6 @@ conf = {
         'server.socket_host': '0.0.0.0',
         'server.socket_port': 8000,
     },
-    '/': {
-        'request.dispatch': cherrypy.dispatch.MethodDispatcher(),
-    }
 }
 
 cherrypy.quickstart(root, '/', conf)
