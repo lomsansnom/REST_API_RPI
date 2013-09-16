@@ -7,7 +7,7 @@ class Resource(object):
 
     exposed = True
     
-    @expose
+    @cherrypy.expose
     def test(self):
         return self
 
