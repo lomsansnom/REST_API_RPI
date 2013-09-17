@@ -7,6 +7,7 @@ class restRPI:
     def index(self):
         return "It's working"
     
+    @expose
     def login(self, json):
         dict = simplejson.loads(json)
         return dict
