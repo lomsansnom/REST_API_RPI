@@ -1,16 +1,22 @@
-import cherrypy
+import cherypy
+from cherrypy import expose
+import simplejson
 
-class HelloWorld:
+class restRPI:
+    @expose
     def index(self):
-        return "Hello world!"
-    index.exposed = True
-
+        return "It's working"
+    
+    def login(self, json):
+        dict = simplejson.loads(json)
+        return dict
+        
 conf = {
     'global': {
         'server.socket_host': '0.0.0.0',
-        'server.socket_port': 8000,
+        'server.socket_port': 8282,
     },
 }
 
-cherrypy.quickstart(HelloWorld(), '/', conf)
+cherrypy.quickstart(restRPI(), '/', conf)
 
