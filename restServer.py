@@ -22,13 +22,13 @@ class restRPI:
   #          ret['Erreur'] = "Parametres invalides"
    #         return simplejson.dumps(ret)
         
-        try:
-            gpio.setmode(gpio.BOARD)
-            gpio.setup(params['numGpio'],gpio.OUT)
-            gpio.output(params['numGpio'], params['etat'])
-        except:
-           ret['OK'] = False
-           ret['Erreur'] = "Echec lors du changement d'etat du GPIO"
+       # try:
+        gpio.setmode(gpio.BOARD)
+        gpio.setup(params['numGpio'],gpio.OUT)
+        gpio.output(params['numGpio'], params['etat'])
+        #except:
+         #  ret['OK'] = False
+          # ret['Erreur'] = "Echec lors du changement d'etat du GPIO"
         
         return json.dumps(ret)
     
