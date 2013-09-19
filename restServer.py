@@ -26,6 +26,7 @@ class restRPI:
             cherrypy.log(strParams)
             params = simplejson.loads(strParams)
             cherrypy.log(params)
+            cherrypy.log(params['numGpio'])
             ret = {"OK" : True}
         except:
             ret = {"OK" : False}
