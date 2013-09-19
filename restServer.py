@@ -25,6 +25,7 @@ class restRPI:
             strParams = simplejson.dumps(cherrypy.request.body.readline())
             cherrypy.log(strParams)
             params = simplejson.loads(strParams)
+            cherrypy.log(params['numGpio'])
             ret = {"OK" : True}
         except:
             ret = {"OK" : False}
@@ -33,7 +34,6 @@ class restRPI:
         
         try:
             gpio.setmode(gpio.BOARD)
-            cherrypy.log(params['numGpio'])
             gpio.setup(params['numGpio'],gpio.OUT)
             gpio.output(params['numGpio'], params['etat'])
         except:
