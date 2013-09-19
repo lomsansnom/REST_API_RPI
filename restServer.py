@@ -1,3 +1,5 @@
+#!/usr/bin/python
+
 import cherrypy
 from cherrypy import expose
 import simplejson
