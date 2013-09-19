@@ -24,7 +24,7 @@ if __name__ == '__main__':
                     'server.socket_port': 8282,
                     },
          '/': {
-               'request.dispatch': cherrypy.dispatch.MethodDispatcher(),
+               'request.dispatch': cherrypy.dispatch.MethodDispatcher()
                }
         })
 
