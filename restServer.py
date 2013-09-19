@@ -46,7 +46,7 @@ class restRPI:
             query = curseur("""SELECT * FROM "Utilisateurs" """)
             cherrypy.log(query.fetchall())
        # except:
-         #   cherrypy.log("Erreur lors de la connexion à la DB")
+         #   cherrypy.log("Erreur lors de la connexion a la DB")
         #    return False
         
     
