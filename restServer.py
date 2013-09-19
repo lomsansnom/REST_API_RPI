@@ -15,9 +15,9 @@ class restRPI:
         try:
             strParams = simplejson.dumps(cherrypy.request.body.readline())
             params = simplejson.loads(strParams)
-            ret = {"OK" : true}
+            ret = {"OK" : True}
         except:
-            ret = {"OK" : false}
+            ret = {"OK" : False}
             ret['Erreur'] = "Parametres invalides"
             return simplejson.dumps(ret)
         
@@ -26,8 +26,10 @@ class restRPI:
             gpio.setup(params[u'numGpio'],gpio.OUT)
             gpio.output(params[u'numGpio'], params[u'etat'])
         except:
-           ret['OK'] = false
-           ret['Erreur'] = "Echec lors du changement d'etat du GPIO" 
+           ret['OK'] = False
+           ret['Erreur'] = "Echec lors du changement d'etat du GPIO"
+        
+        return ret 
     
 conf={
         'global':{
