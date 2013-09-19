@@ -13,7 +13,10 @@ class restRPI:
     def arrangerDict(self, dict):
         ret={}
         for key, value in dict:
-            ret[key[2:-1]] = value[2:-1]
+            if key[0:1] == "u'" and value[0:1] == "u'":
+                ret[key[2:-1]] = value[2:-1]
+            else:
+                ret[key[2:-1]] = value
         return ret
         
     @expose   
