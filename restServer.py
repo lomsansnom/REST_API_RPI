@@ -11,6 +11,7 @@ class restRPI:
     
     @expose   
     def test(self):
+        cherrypy.response.headers['Content-Type'] = "application/json"
         ret={"year":"test"}
         ret['month']='nothing'
         return simplejson.dumps(cherrypy.request.body.readline())
