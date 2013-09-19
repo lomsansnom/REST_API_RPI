@@ -9,32 +9,22 @@ class restRPI:
     
     def __init__(self):
         cherrypy.response.headers['Content-Type'] = "application/json;charset=utf-8"
-    
-    def arrangerDict(self, dict):
-        ret={}
-        for key, value in dict:
-            if key[0:1] == "u'" and value[0:1] == "u'":
-                ret[key[2:-1]] = value[2:-1]
-            else:
-                ret[key[2:-1]] = value
-        return ret
         
     @expose   
     def setGpio(self):
-        try:
-            json = cherrypy.request.body.readline()
-            cherrypy.log(json)
-            cherrypy.log(json['numGpio'])
-            strParams = simplejson.dumps(json)
-            cherrypy.log(strParams)
-            params = simplejson.loads(strParams)
-            cherrypy.log(params)
-            cherrypy.log(params['numGpio'])
-            ret = {"OK" : True}
-        except:
-            ret = {"OK" : False}
-            ret['Erreur'] = "Parametres invalides"
-            return simplejson.dumps(ret)
+        #try:
+        json = cherrypy.request.body.readline()
+        cherrypy.log(json)
+        strParams = simplejson.dumps(json)
+        cherrypy.log(strParams)
+        params = simplejson.loads(strParams)
+        cherrypy.log(params)
+        cherrypy.log(params['numGpio'])
+        ret = {"OK" : True}
+#        except:
+ #           ret = {"OK" : False}
+  #          ret['Erreur'] = "Parametres invalides"
+   #         return simplejson.dumps(ret)
         
         try:
             gpio.setmode(gpio.BOARD)
