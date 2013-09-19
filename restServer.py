@@ -14,7 +14,6 @@ class restRPI:
     def setGpio(self):
         #try:
         params = json.loads(json.dumps(cherrypy.request.body.readline()))
-        cherrypy.log(type(params))
         ret = {"OK" : True}
 #        except:
  #           ret = {"OK" : False}
