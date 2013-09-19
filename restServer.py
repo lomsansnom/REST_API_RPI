@@ -12,7 +12,7 @@ class restRPI:
     __host = "192.168.1.45"
     __port = 5432
     __dbname = "lomsansnom"
-    __username = "lomsansom"
+    __user = "lomsansom"
     __password = "postgres"
     
     def __init__(self):
@@ -41,7 +41,7 @@ class restRPI:
     @expose
     def connectDB(self):
        # try:
-            sessionDB = psycopg2.connect(host = self.__host, port = self.__port, dbname = self.__dbname, username = self.__username, password = self.__password)
+            sessionDB = psycopg2.connect(host = self.__host, port = self.__port, dbname = self.__dbname, user = self.__user, password = self.__password)
             curseur = sessionDB.cursor()
             query = curseur("""SELECT * FROM "Utilisateurs" """)
             cherrypy.log(query.fetchall())
