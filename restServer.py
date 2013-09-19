@@ -13,7 +13,7 @@ class restRPI:
     def test(self):
         ret={"year":"test"}
         ret['month']='nothing'
-        return simplejson.loads(ret)
+        return simplejson.dumps(ret)
     
 conf={
         'global':{
