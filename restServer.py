@@ -3,6 +3,7 @@
 import cherrypy
 from cherrypy import expose
 import simplejson
+import RPi.GPIO as gpio
 
 class restRPI:
     
@@ -10,11 +11,23 @@ class restRPI:
         cherrypy.response.headers['Content-Type'] = "application/json"
     
     @expose   
-    def test(self):
-        cherrypy.response.headers['Content-Type'] = "application/json"
-        ret={"year":"test"}
-        ret['month']='nothing'
-        return cherrypy.request.body.readline()
+    def setGpio(self):
+        try:
+            strParams = simplejson.dumps(cherrypy.request.body.readline())
+            params = simplejson.loads(strParams)
+            ret = {"OK" : true}
+        except:
+            ret = {"OK" : false}
+            ret['Erreur'] = "Paramètres invalides"
+            return simplejson.dumps(ret)
+        
+        try:
+            gpio.setmode(gpio.BOARD)
+            gpio.setup(params[u'numGpio'],gpio.OUT)
+            gpio.output(params[u'numGpio'], params[u'etat'])
+        except:
+           ret['OK'] = false
+           ret['Erreur'] = "Echec lors du changement d'état du GPIO" 
     
 conf={
         'global':{
