@@ -15,6 +15,7 @@ class restRPI:
         #try:
         params = json.loads(cherrypy.request.body.readline())
         cherrypy.log(str(type(cherrypy.request.body.readline())))
+        cherrypy.log(str(type(params)))
         ret = {"OK" : True}
 #        except:
  #           ret = {"OK" : False}
