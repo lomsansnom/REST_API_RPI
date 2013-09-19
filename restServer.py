@@ -4,18 +4,24 @@ import cherrypy
 from cherrypy import expose
 import json
 import RPi.GPIO as gpio
+import psycopg2
 
 class restRPI:
     
+    __contentType = "application/json;charset=utf-8"
+    __host = "192.168.1.45"
+    __port = 5432
+    __dbname = "lomsansnom"
+    __username = "lomsansom"
+    __password = "postgres"
+    
     def __init__(self):
-        cherrypy.response.headers['Content-Type'] = "application/json;charset=utf-8"
+        cherrypy.response.headers['Content-Type'] = self.__contentType
         
     @expose   
     def setGpio(self):
         try:
             params = json.loads(cherrypy.request.body.readline())
-            cherrypy.log(str(type(cherrypy.request.body.readline())))
-            cherrypy.log(str(type(params)))
             ret = {"OK" : True}
         except:
             ret = {"OK" : False}
@@ -31,6 +37,18 @@ class restRPI:
             ret['Erreur'] = "Echec lors du changement d'etat du GPIO"
         
         return json.dumps(ret)
+    
+    @expose
+    def connectDB(self):
+       # try:
+            sessionDB = psycopg2.connect(host = __host, port = __port, dbname = __dbname, username = __username, password = __password)
+            curseur = sessionDB.cursor()
+            query = curseur("""SELECT * FROM "Utilisateurs" """)
+            cherrypy.log(query.fetchall())
+       # except:
+         #   cherrypy.log("Erreur lors de la connexion à la DB")
+        #    return False
+        
     
 conf={
         'global':{
