@@ -12,23 +12,23 @@ class restRPI:
         
     @expose   
     def setGpio(self):
-        #try:
-        params = json.loads(cherrypy.request.body.readline())
-        cherrypy.log(str(type(cherrypy.request.body.readline())))
-        cherrypy.log(str(type(params)))
-        ret = {"OK" : True}
-#        except:
- #           ret = {"OK" : False}
-  #          ret['Erreur'] = "Parametres invalides"
-   #         return simplejson.dumps(ret)
+        try:
+            params = json.loads(cherrypy.request.body.readline())
+            cherrypy.log(str(type(cherrypy.request.body.readline())))
+            cherrypy.log(str(type(params)))
+            ret = {"OK" : True}
+        except:
+            ret = {"OK" : False}
+            ret['Erreur'] = "Parametres invalides"
+            return simplejson.dumps(ret)
         
-       # try:
-        gpio.setmode(gpio.BOARD)
-        gpio.setup(params['numGpio'],gpio.OUT)
-        gpio.output(params['numGpio'], params['etat'])
-        #except:
-         #  ret['OK'] = False
-          # ret['Erreur'] = "Echec lors du changement d'etat du GPIO"
+        try:
+            gpio.setmode(gpio.BOARD)
+            gpio.setup(params['numGpio'],gpio.OUT)
+            gpio.output(params['numGpio'], params['etat'])
+        except:
+            ret['OK'] = False
+            ret['Erreur'] = "Echec lors du changement d'etat du GPIO"
         
         return json.dumps(ret)
     
