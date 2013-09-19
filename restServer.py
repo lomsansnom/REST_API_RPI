@@ -2,7 +2,7 @@
 
 import cherrypy
 from cherrypy import expose
-import simplejson
+import json as simplejson
 import RPi.GPIO as gpio
 
 class restRPI:
@@ -19,7 +19,7 @@ class restRPI:
         cherrypy.log(strParams)
         params = simplejson.loads(strParams)
         cherrypy.log(params)
-        cherrypy.log(params[0])
+        cherrypy.log(params['numGpio'])
         ret = {"OK" : True}
 #        except:
  #           ret = {"OK" : False}
