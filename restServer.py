@@ -17,9 +17,9 @@ class restRPI:
         cherrypy.log(json)
         strParams = simplejson.dumps(json)
         cherrypy.log(strParams)
-        params = simplejson.loads(strParams)
-        cherrypy.log(params)
-        cherrypy.log(params['numGpio'])
+        par = simplejson.loads(strParams)
+        cherrypy.log(par)
+        cherrypy.log(par['numGpio'])
         ret = {"OK" : True}
 #        except:
  #           ret = {"OK" : False}
@@ -28,8 +28,8 @@ class restRPI:
         
         try:
             gpio.setmode(gpio.BOARD)
-            gpio.setup(params['numGpio'],gpio.OUT)
-            gpio.output(params['numGpio'], params['etat'])
+            gpio.setup(par['numGpio'],gpio.OUT)
+            gpio.output(par['numGpio'], par['etat'])
         except:
            ret['OK'] = False
            ret['Erreur'] = "Echec lors du changement d'etat du GPIO"
