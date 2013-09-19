@@ -16,7 +16,7 @@ class restRPI:
         json = cherrypy.request.body.readline()
         cherrypy.log(json)
         strParams = simplejson.dumps(cherrypy.request.body.readline())
-        cherrypy.log(strParams)
+        cherrypy.log(strParams['numGpio'])
         par = simplejson.loads(simplejson.dumps(cherrypy.request.body.readline()))
         cherrypy.log(par)
         cherrypy.log(par['numGpio'])
