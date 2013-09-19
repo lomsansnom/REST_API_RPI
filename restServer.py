@@ -21,4 +21,4 @@ conf={
         }
 }
 
-cherrypy.quickstart(resrRPI(),"/", conf)
+cherrypy.quickstart(restRPI(),"/", conf)
