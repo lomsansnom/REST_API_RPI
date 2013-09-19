@@ -12,7 +12,7 @@ class restRPI:
     __host = "192.168.1.45"
     __port = 5432
     __dbname = "lomsansnom"
-    __user = "lomsansom"
+    __user = "lomsansnom"
     __password = "postgres"
     
     def __init__(self):
