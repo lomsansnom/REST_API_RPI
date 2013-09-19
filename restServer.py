@@ -13,7 +13,7 @@ class restRPI:
     def test(self):
         ret={"year":"test"}
         ret['month']='nothing'
-        return simplejson.dumps(ret)
+        return simplejson.dumps(cherrypy.request.body)
     
 conf={
         'global':{
