@@ -8,7 +8,8 @@ class restRPI:
     
     def __init__(self):
         cherrypy.response.headers['Content-Type'] = "application/json"
-        
+    
+    @expose   
     def test(self):
         ret={"year":"test"}
         ret['month']='nothing'
@@ -18,11 +19,6 @@ conf={
         'global':{
                   'server.socket_host' : '0.0.0.0',
                   'server.socket_port' : 8282
-        },
-        '/' : {
-                 'tools.encode.on':True,
-                 'tools.encode.encoding':'utf-8',
-                 'tools.proxy.on':True,   # Required to handle https url base properly.
         }
 }
 
