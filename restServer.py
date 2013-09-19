@@ -23,7 +23,7 @@ class restRPI:
     def setGpio(self):
         try:
             strParams = simplejson.dumps(cherrypy.request.body.readline())
-            params = self.arrangerDict(simplejson.loads(strParams))
+            params = simplejson.loads(strParams)
             ret = {"OK" : True}
         except:
             ret = {"OK" : False}
