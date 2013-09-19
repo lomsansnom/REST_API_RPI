@@ -22,7 +22,10 @@ class restRPI:
     @expose   
     def setGpio(self):
         try:
-            strParams = simplejson.dumps(cherrypy.request.body.readline())
+            json = cherrypy.request.body.readline()
+            cherrypy.log(json)
+            cherrypy.log(json['numGpio'])
+            strParams = simplejson.dumps(json)
             cherrypy.log(strParams)
             params = simplejson.loads(strParams)
             cherrypy.log(params)
