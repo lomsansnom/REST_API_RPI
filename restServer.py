@@ -21,4 +21,5 @@ conf={
         }
 }
 
+cherrypy.config.update(conf)
 cherrypy.quickstart(restRPI(),"/", conf)
