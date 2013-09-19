@@ -12,7 +12,7 @@ class restRPI:
     @expose
     def POST(self, json):
         dict = simplejson.loads(json)
-        return dict
+        return 'ok'
 
 if __name__ == '__main__':
 
