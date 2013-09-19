@@ -11,7 +11,7 @@ class restRPI:
     
     @expose
     def login(self, json):
-        dict = simplejson.loads(simplejson.dumps(json))
+        dict = simplejson.loads(json)
         return dict
         
 conf = {
