@@ -23,7 +23,7 @@ class restRPI:
         
         try:
             gpio.setmode(gpio.BOARD)
-            gpio.setup(params[u'numGpio'],gpio.OUT)
+           # gpio.setup(params[u'numGpio'],gpio.OUT)
            # gpio.output(params[u'numGpio'], params[u'etat'])
         except:
            ret['OK'] = False
