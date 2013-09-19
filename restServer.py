@@ -6,11 +6,11 @@ import simplejson
 
 class restRPI:
     @expose
-    def index(self):
+    def GET(self):
         return "It's working"
     
     @expose
-    def login(self, json):
+    def POST(self, json):
         dict = simplejson.loads(json)
         return dict
         
@@ -19,6 +19,9 @@ conf = {
         'server.socket_host': '0.0.0.0',
         'server.socket_port': 8282,
     },
+    '/': {
+        'request.dispatch': cherrypy.dispatch.MethodDispatcher(),
+    }
 }
 
 cherrypy.quickstart(restRPI(), '/', conf)
