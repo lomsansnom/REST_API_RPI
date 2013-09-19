@@ -8,7 +8,7 @@ import RPi.GPIO as gpio
 class restRPI:
     
     def __init__(self):
-        cherrypy.response.headers['Content-Type'] = "application/json"
+        cherrypy.response.headers['Content-Type'] = "application/json;charset=utf-8"
     
     def arrangerDict(self, dict):
         ret={}
@@ -48,8 +48,13 @@ conf={
                   'server.socket_host' : '0.0.0.0',
                   'server.socket_port' : 8282,
                   'log.screen' : True
+        },
+        '/' : {
+               'tools.encode.on':True,
+               'tools.encode.encoding':'utf-8'
         }
 }
+
 
 cherrypy.config.update(conf)
 cherrypy.quickstart(restRPI(),"/", conf)
