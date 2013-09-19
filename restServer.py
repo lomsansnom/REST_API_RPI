@@ -23,8 +23,8 @@ class restRPI:
         
         try:
             gpio.setmode(gpio.BOARD)
-           # gpio.setup(params[u'numGpio'],gpio.OUT)
-           # gpio.output(params[u'numGpio'], params[u'etat'])
+            gpio.setup(params['numGpio'],gpio.OUT)
+            gpio.output(params['numGpio'], params['etat'])
         except:
            ret['OK'] = False
            ret['Erreur'] = "Echec lors du changement d'etat du GPIO"
