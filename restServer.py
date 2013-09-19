@@ -23,6 +23,7 @@ class restRPI:
     def setGpio(self):
         try:
             strParams = simplejson.dumps(cherrypy.request.body.readline())
+            cherrypy.log(strParams)
             params = simplejson.loads(strParams)
             ret = {"OK" : True}
         except:
@@ -32,6 +33,7 @@ class restRPI:
         
         try:
             gpio.setmode(gpio.BOARD)
+            cherrypy.log(params['numGpio'])
             gpio.setup(params['numGpio'],gpio.OUT)
             gpio.output(params['numGpio'], params['etat'])
         except:
@@ -43,7 +45,8 @@ class restRPI:
 conf={
         'global':{
                   'server.socket_host' : '0.0.0.0',
-                  'server.socket_port' : 8282
+                  'server.socket_port' : 8282,
+                  'log.screen' : True
         }
 }
 
