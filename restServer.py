@@ -10,11 +10,17 @@ class restRPI:
     def __init__(self):
         cherrypy.response.headers['Content-Type'] = "application/json"
     
+    def arrangerDict(self, dict):
+        ret={}
+        for key, value in dict:
+            ret[key[2:-1]] = value[2:-1]
+        return ret
+        
     @expose   
     def setGpio(self):
         try:
             strParams = simplejson.dumps(cherrypy.request.body.readline())
-            params = simplejson.loads(strParams)
+            params = arrangerDict(simplejson.loads(strParams))
             ret = {"OK" : True}
         except:
             ret = {"OK" : False}
