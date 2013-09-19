@@ -16,14 +16,12 @@ class restRPI:
 
 if __name__ == '__main__':
 
+    cherrypy.config.update({'server.socket_host': '0.0.0.0',
+                            'server.socket_port': 8282,
+                       })
     cherrypy.tree.mount(
         restRPI(), '/api',
         {
-         'global': 
-                    {
-                        'server.socket_host': '0.0.0.0',
-                        'server.socket_port': 8282,
-                    },
          '/':       
                     {'request.dispatch': cherrypy.dispatch.MethodDispatcher()}
         })
