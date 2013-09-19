@@ -14,7 +14,7 @@ class restRPI:
         cherrypy.response.headers['Content-Type'] = "application/json"
         ret={"year":"test"}
         ret['month']='nothing'
-        return simplejson.loads(cherrypy.request.body.readline())
+        return cherrypy.request.body.readline()
     
 conf={
         'global':{
