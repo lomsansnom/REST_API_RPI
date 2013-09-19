@@ -18,7 +18,7 @@ class restRPI:
             ret = {"OK" : true}
         except:
             ret = {"OK" : false}
-            ret['Erreur'] = "Paramètres invalides"
+            ret['Erreur'] = "Parametres invalides"
             return simplejson.dumps(ret)
         
         try:
