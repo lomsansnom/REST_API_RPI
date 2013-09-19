@@ -27,7 +27,7 @@ class restRPI:
             gpio.output(params[u'numGpio'], params[u'etat'])
         except:
            ret['OK'] = false
-           ret['Erreur'] = "Echec lors du changement d'état du GPIO" 
+           ret['Erreur'] = "Echec lors du changement d'etat du GPIO" 
     
 conf={
         'global':{
