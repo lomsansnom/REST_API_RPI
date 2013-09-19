@@ -43,7 +43,7 @@ class restRPI:
        # try:
             sessionDB = psycopg2.connect(host = self.__host, port = self.__port, dbname = self.__dbname, user = self.__user, password = self.__password)
             curseur = sessionDB.cursor()
-            query = curseur("""SELECT * FROM "Utilisateurs" """)
+            query = curseur.execute("""SELECT * FROM "Utilisateurs" """)
             cherrypy.log(query.fetchall())
        # except:
          #   cherrypy.log("Erreur lors de la connexion a la DB")
