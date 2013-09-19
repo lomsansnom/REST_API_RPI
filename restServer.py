@@ -29,7 +29,7 @@ class restRPI:
            ret['OK'] = False
            ret['Erreur'] = "Echec lors du changement d'etat du GPIO"
         
-        return simplejson.dumps(ret)
+        return json.dumps(ret)
     
 conf={
         'global':{
