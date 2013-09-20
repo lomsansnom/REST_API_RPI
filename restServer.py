@@ -1,4 +1,5 @@
 #!/usr/bin/python
+# -*- coding: utf-8 -*-
 
 import cherrypy
 from cherrypy import expose
@@ -22,19 +23,23 @@ class restRPI:
     def setGpio(self):
         try:
             params = json.loads(cherrypy.request.body.readline())
-            ret = {"OK" : True}
         except:
             ret = {"OK" : False}
             ret['Erreur'] = "Parametres invalides"
             return simplejson.dumps(ret)
         
-        try:
-            gpio.setmode(gpio.BOARD)
-            gpio.setup(params['numGpio'],gpio.OUT)
-            gpio.output(params['numGpio'], params['etat'])
-        except:
-            ret['OK'] = False
-            ret['Erreur'] = "Echec lors du changement d'etat du GPIO"
+        if "numGpio" and "etat" not in params :
+            try:
+                gpio.setmode(gpio.BOARD)
+                gpio.setup(params['numGpio'],gpio.OUT)
+                gpio.output(params['numGpio'], params['etat'])
+                ret = {"OK" : True}
+            except:
+                ret = {"OK" : False}
+                ret['Erreur'] = "Echec lors du changement d'état du GPIO"
+        else :
+            ret = {"OK" : False}
+            ret['Erreur'] = "numGpio et etat sont obligatoires"
         
         return json.dumps(ret)
     
