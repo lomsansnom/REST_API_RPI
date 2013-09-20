@@ -26,7 +26,7 @@ class restRPI:
         except:
             ret = {"OK" : False}
             ret['Erreur'] = "Paramètres invalides"
-            return simplejson.dumps(ret)
+            return json.dumps(ret)
         
         if  "numGpio" and "etat" in params :
             try:
@@ -50,7 +50,7 @@ class restRPI:
         except:
             ret = {"OK" : False}
             ret['Erreur'] = "Paramètres invalides"
-            return simplejson.dumps(ret)
+            return json.dumps(ret)
         
         if 'query' and 'username' and 'password' in params:
             if params['query'] == 'login':
