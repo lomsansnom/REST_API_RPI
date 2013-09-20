@@ -28,7 +28,7 @@ class restRPI:
             ret['Erreur'] = "Parametres invalides"
             return simplejson.dumps(ret)
         
-        if "numGpio" and "etat" not in params :
+        if "numGpio" or "etat" not in params :
             try:
                 gpio.setmode(gpio.BOARD)
                 gpio.setup(params['numGpio'],gpio.OUT)
