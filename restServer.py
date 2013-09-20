@@ -25,18 +25,18 @@ class restRPI:
             params = json.loads(cherrypy.request.body.readline())
         except:
             ret = {"OK" : False}
-            ret['Erreur'] = "Parametres invalides"
+            ret['Erreur'] = "Paramètres invalides"
             return simplejson.dumps(ret)
         
-        if not "numGpio" or "etat" in params :
-           # try:
-           gpio.setmode(gpio.BOARD)
-           gpio.setup(params['numGpio'],gpio.OUT)
-           gpio.output(params['numGpio'], params['etat'])
-           ret = {"OK" : True}
-#            except:
- #               ret = {"OK" : False}
-  #              ret['Erreur'] = "Echec lors du changement d'état du GPIO"
+        if  "numGpio" and "etat" in params :
+            try:
+                gpio.setmode(gpio.BOARD)
+                gpio.setup(params['numGpio'],gpio.OUT)
+                gpio.output(params['numGpio'], params['etat'])
+                ret = {"OK" : True}
+            except:
+                ret = {"OK" : False}
+                ret['Erreur'] = "Echec lors du changement d'état du GPIO"
         else :
             ret = {"OK" : False}
             ret['Erreur'] = "numGpio et etat sont obligatoires"
@@ -45,14 +45,27 @@ class restRPI:
     
     @expose
     def connectDB(self):
-       # try:
-            sessionDB = psycopg2.connect(host = self.__host, port = self.__port, dbname = self.__dbname, user = self.__user, password = self.__password)
-            curseur = sessionDB.cursor()
-            curseur.execute("""SELECT * FROM "Utilisateurs" """)
-            cherrypy.log(','.join(map(str, curseur.fetchall())))
-       # except:
-         #   cherrypy.log("Erreur lors de la connexion a la DB")
-        #    return False
+        try:
+            params = json.loads(cherrypy.request.body.readline())
+        except:
+            ret = {"OK" : False}
+            ret['Erreur'] = "Paramètres invalides"
+            return simplejson.dumps(ret)
+        
+        if 'query' in params:
+          #  if params['query'] == 'login':
+           #     requete = 'SELECT "password" FROM "Utilisateurs" WHERE "login"=\'' + query.username + '\'';
+            #elif params['quert'] == 'ajouterMembre':
+             #   requete = 'INSERT INTO "Utilisateurs" ("login", "password") VALUES (\'' + query.username + '\', \'' + query.password + '\')';
+
+            try:
+                sessionDB = psycopg2.connect(host = self.__host, port = self.__port, dbname = self.__dbname, user = self.__user, password = self.__password)
+                curseur = sessionDB.cursor()
+                curseur.execute("""SELECT * FROM "Utilisateurs" """)
+                cherrypy.log(','.join(map(str, curseur.fetchall())))
+            except:
+                cherrypy.log("Erreur lors de la connexion a la DB")
+                return False
         
     
 conf={
