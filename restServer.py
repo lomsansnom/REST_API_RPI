@@ -45,12 +45,12 @@ class restRPI:
     
     @expose
     def connectDB(self):
-        try:
-            params = json.loads(cherrypy.request.body.readline())
-        except:
-            ret = {"OK" : False}
-            ret['Erreur'] = "Paramètres invalides"
-            return json.dumps(ret)
+        #try:
+        params = json.loads(cherrypy.request.body.readline())
+      #  except:
+       #     ret = {"OK" : False}
+        #    ret['Erreur'] = "Paramètres invalides"
+         #   return json.dumps(ret)
         
         if 'query' and 'username' and 'password' in params:
             if params['query'] == 'login':
