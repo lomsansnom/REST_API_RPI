@@ -52,20 +52,27 @@ class restRPI:
             ret['Erreur'] = "Paramètres invalides"
             return simplejson.dumps(ret)
         
-        if 'query' in params:
-          #  if params['query'] == 'login':
-           #     requete = 'SELECT "password" FROM "Utilisateurs" WHERE "login"=\'' + query.username + '\'';
-            #elif params['quert'] == 'ajouterMembre':
-             #   requete = 'INSERT INTO "Utilisateurs" ("login", "password") VALUES (\'' + query.username + '\', \'' + query.password + '\')';
+        if 'query' and 'username' and 'password' in params:
+            if params['query'] == 'login':
+                requete = """SELECT "password" FROM "Utilisateurs" WHERE "login"=\'' + params['username'] + '\'""";
+            elif params['quert'] == 'ajouterMembre':
+                requete = """INSERT INTO "Utilisateurs" ("login", "password") VALUES (\'' + params['username'] + '\', \'' + params['password'] + '\')""";
 
             try:
                 sessionDB = psycopg2.connect(host = self.__host, port = self.__port, dbname = self.__dbname, user = self.__user, password = self.__password)
                 curseur = sessionDB.cursor()
-                curseur.execute("""SELECT * FROM "Utilisateurs" """)
+                curseur.execute(requete)
                 cherrypy.log(','.join(map(str, curseur.fetchall())))
+                ret = {'OK' : True}
             except:
                 cherrypy.log("Erreur lors de la connexion a la DB")
-                return False
+                ret = {"OK" : False}
+                ret['Erreur'] = "Erreur lors de la connexion a la DB"
+        else:
+            ret = {"OK" : False}
+            ret['Erreur'] = "query, username et password sont obligatoires"
+        
+        return json.dumps(ret)
         
     
 conf={
