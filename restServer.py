@@ -59,7 +59,7 @@ class restRPI:
         
         if 'query' and 'username' and 'password' in params:
             if params['query'] == 'login':
-                requete = """SELECT "password" FROM "Utilisateurs" WHERE "login"=(%s);"""
+                requete = """SELECT "password" FROM "Utilisateurs" WHERE "login" = '%s';"""
                 donnees = (params['username'],)
                 output = True
             elif params['query'] == 'ajouterMembre':
