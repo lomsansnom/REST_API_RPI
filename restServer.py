@@ -58,7 +58,7 @@ class restRPI:
         if 'query' and 'username' and 'password' in params:
             if params['query'] == 'login':
                 requete = """SELECT "password" FROM "Utilisateurs" WHERE "login"=%s;"""
-                donnees = (params['username'],)
+                donnees = params['username']
                 output = True
             elif params['query'] == 'ajouterMembre':
                 requete = """INSERT INTO "Utilisateurs" ("login", "password") VALUES (%s, %s);"""
@@ -92,7 +92,10 @@ class restRPI:
             ret = {"OK" : False}
             ret['Erreur'] = "query, username et password sont obligatoires"
         
-        return ret
+        if not post :
+            return ret
+        else:
+            return json.dumps(ret)
     
     @expose
     def login(self):
