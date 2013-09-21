@@ -66,8 +66,13 @@ class restRPI:
             cherrypy.log("donnees :" + str(donnees))
             try:
                 sessionDB = psycopg2.connect(host = self.__host, port = self.__port, dbname = self.__dbname, user = self.__user, password = self.__password)
+                
+                if not output:
+                    sessionDB.autocommit = True
+                    
                 curseur = sessionDB.cursor()
                 curseur.execute(requete, donnees)
+                
                 if output:
                     cherrypy.log(','.join(map(str, curseur.fetchall())))
                 ret = {'OK' : True}
