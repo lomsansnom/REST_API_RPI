@@ -106,6 +106,7 @@ class restRPI:
         
         params['query'] = 'login'
         ret = self.connectDB(False, params)
+        cherrypy.log(str(ret))
         
         if ret['OK']:
             if ret['res']['password'] == params['password']:
