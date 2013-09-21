@@ -58,25 +58,28 @@ class restRPI:
             elif params['query'] == 'ajouterMembre':
                 requete = """INSERT INTO "Utilisateurs" ("login", "password") VALUES ('""" + params['username'] + """', '""" + params['password'] + """');"""
 
-            #try:
-            sessionDB = psycopg2.connect(host = self.__host, port = self.__port, dbname = self.__dbname, user = self.__user, password = self.__password)
-            curseur = sessionDB.cursor()
-            curseur.execute(requete)
-            cherrypy.log(','.join(map(str, curseur.fetchall())))
-            ret = {'OK' : True}
-#            except:
- #               cherrypy.log("Erreur lors de la connexion a la DB")
-  #              ret = {"OK" : False}
-   #             ret['Erreur'] = "Erreur lors de la connexion a la DB"
+            try:
+                sessionDB = psycopg2.connect(host = self.__host, port = self.__port, dbname = self.__dbname, user = self.__user, password = self.__password)
+                curseur = sessionDB.cursor()
+                curseur.execute(requete)
+                if curseur.fetchall():
+                    cherrypy.log(','.join(map(str, curseur.fetchall())))
+                ret = {'OK' : True}
+            except Exception as e:
+                cherrypy.log("Erreur lors de la connexion a la DB")
+                cherrypy.log(str(e))
+                ret = {"OK" : False}
+                ret['Erreur'] = "Erreur lors de la connexion a la DB"
         else:
             ret = {"OK" : False}
             ret['Erreur'] = "query, username et password sont obligatoires"
         
         return json.dumps(ret)
         
-    
-conf={
+
+conf={  
         'global':{
+
                   'server.socket_host' : '0.0.0.0',
                   'server.socket_port' : 8282,
                   'log.screen' : True
