@@ -63,7 +63,7 @@ class restRPI:
                 output = False
             
             cherrypy.log("requete :" + requete)
-            cherrypy.log("donnees :" + donnees)
+            cherrypy.log("donnees :" + str(donnees))
             try:
                 sessionDB = psycopg2.connect(host = self.__host, port = self.__port, dbname = self.__dbname, user = self.__user, password = self.__password)
                 curseur = sessionDB.cursor()
