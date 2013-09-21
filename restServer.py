@@ -55,14 +55,16 @@ class restRPI:
         if 'query' and 'username' and 'password' in params:
             if params['query'] == 'login':
                 requete = """SELECT "password" FROM "Utilisateurs" WHERE "login"='""" + params['username'] + """';"""
+                output = True
             elif params['query'] == 'ajouterMembre':
                 requete = """INSERT INTO "Utilisateurs" ("login", "password") VALUES ('""" + params['username'] + """', '""" + params['password'] + """');"""
+                output = False
 
             try:
                 sessionDB = psycopg2.connect(host = self.__host, port = self.__port, dbname = self.__dbname, user = self.__user, password = self.__password)
                 curseur = sessionDB.cursor()
                 curseur.execute(requete)
-                if curseur.fetchall():
+                if output:
                     cherrypy.log(','.join(map(str, curseur.fetchall())))
                 ret = {'OK' : True}
             except Exception as e:
