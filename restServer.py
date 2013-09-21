@@ -6,6 +6,7 @@ from cherrypy import expose
 import json
 import RPi.GPIO as gpio
 import psycopg2
+import psycopg2.extras
 
 class restRPI:
     
@@ -44,18 +45,20 @@ class restRPI:
         return json.dumps(ret)
     
     @expose
-    def connectDB(self):
+    def connectDB(self, post=True, params=None):
         try:
-            params = json.loads(cherrypy.request.body.readline())
-        except:
+            if post:
+                params = json.loads(cherrypy.request.body.readline())
+        except Exception as e:
             ret = {"OK" : False}
             ret['Erreur'] = "Paramètres invalides"
+            cherrypy.log(str(e))
             return json.dumps(ret)
         
         if 'query' and 'username' and 'password' in params:
             if params['query'] == 'login':
                 requete = """SELECT "password" FROM "Utilisateurs" WHERE "login"=%s;"""
-                donnees = (params['username'])
+                donnees = (params['username'],)
                 output = True
             elif params['query'] == 'ajouterMembre':
                 requete = """INSERT INTO "Utilisateurs" ("login", "password") VALUES (%s, %s);"""
@@ -70,12 +73,16 @@ class restRPI:
                 if not output:
                     sessionDB.autocommit = True
                     
-                curseur = sessionDB.cursor()
+                curseur = sessionDB.cursor(cursor_factory = psycopg2.extras.DictCursor)
                 curseur.execute(requete, donnees)
                 
                 if output:
-                    cherrypy.log(','.join(map(str, curseur.fetchall())))
-                ret = {'OK' : True}
+                    cherrypy.log(curseur.fetchall())
+                    ret = {"OK" : True, "res" : curseur.fetchall()}
+                else:
+                    ret = {'OK' : True}
+                
+                
             except Exception as e:
                 cherrypy.log("Erreur lors de la connexion a la DB")
                 cherrypy.log(str(e))
@@ -86,6 +93,28 @@ class restRPI:
             ret['Erreur'] = "query, username et password sont obligatoires"
         
         return json.dumps(ret)
+    
+    @expose
+    def login(self):
+        try:
+            params = json.loads(cherrypy.request.body.readline())
+        except Exception as e:
+            retLogin = {"OK" : False}
+            retLogin['Erreur'] = "Paramètres invalides"
+            cherrypy.log(str(e))
+            return json.dumps(retLogin)
+        
+        params['query'] = 'login'
+        ret = self.connectDB(false, params)
+        
+        if ret['OK']:
+            if ret['res']['password'] == params['password']:
+                retLogin = {"OK" : True}
+        else:
+            retLogin = {"OK": False}
+            retLogin["Erreur"] = "Erreur lors de la demande des données à la DB" 
+        
+        return json.dumps(retLogin)
         
 
 conf={  
