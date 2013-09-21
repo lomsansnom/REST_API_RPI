@@ -105,7 +105,7 @@ class restRPI:
             return json.dumps(retLogin)
         
         params['query'] = 'login'
-        ret = self.connectDB(false, params)
+        ret = self.connectDB(False, params)
         
         if ret['OK']:
             if ret['res']['password'] == params['password']:
