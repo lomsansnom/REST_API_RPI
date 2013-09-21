@@ -55,6 +55,8 @@ class restRPI:
             cherrypy.log(str(e))
             return json.dumps(ret)
         
+        cherrypy.log("paramètres : " + params)
+        
         if 'query' and 'username' and 'password' in params:
             if params['query'] == 'login':
                 requete = """SELECT "password" FROM "Utilisateurs" WHERE "login"=%s;"""
