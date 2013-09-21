@@ -55,7 +55,7 @@ class restRPI:
             cherrypy.log(str(e))
             return json.dumps(ret)
         
-        cherrypy.log("paramètres : " + params)
+        cherrypy.log("paramètres : " + str(params))
         
         if 'query' and 'username' and 'password' in params:
             if params['query'] == 'login':
