@@ -59,7 +59,8 @@ class restRPI:
             elif params['query'] == 'ajouterMembre':
                 requete = """INSERT INTO "Utilisateurs" ("login", "password") VALUES ('""" + params['username'] + """', '""" + params['password'] + """');"""
                 output = False
-
+            
+            cherrypy.log("requete :" + requete)
             try:
                 sessionDB = psycopg2.connect(host = self.__host, port = self.__port, dbname = self.__dbname, user = self.__user, password = self.__password)
                 curseur = sessionDB.cursor()
