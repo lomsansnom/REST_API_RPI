@@ -115,6 +115,9 @@ class restRPI:
         if ret['OK']:
             if ret['res'][0]['password'] == params['password']:
                 retLogin = {"OK" : True}
+            else:
+                retLogin = {"OK": False}
+                retLogin["Erreur"] = "Mot de passe erroné"
         else:
             retLogin = {"OK": False}
             retLogin["Erreur"] = "Erreur lors de la demande des données à la DB" 
