@@ -79,7 +79,7 @@ class restRPI:
                 curseur.execute(requete, donnees)
                 
                 if output:
-                    #cherrypy.log(curseur.fetchall())
+                    cherrypy.log(curseur.fetchall())
                     #ret = {"OK" : True, "res" : curseur.fetchall()}
                     ret = {'OK' : True}
                 else:
