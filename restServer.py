@@ -75,7 +75,8 @@ class restRPI:
                 if not output:
                     sessionDB.autocommit = True
                     
-                curseur = sessionDB.cursor(cursor_factory = psycopg2.extras.DictCursor)
+                #curseur = sessionDB.cursor(cursor_factory = psycopg2.extras.DictCursor)
+                curseur = sessionDB.cursor()
                 curseur.execute(requete, donnees)
                 
                 if output:
