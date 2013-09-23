@@ -113,7 +113,7 @@ class restRPI:
         cherrypy.log(str(ret))
         
         if ret['OK']:
-            if ret['res']['password'] == params['password']:
+            if ret['res'][0]['password'] == params['password']:
                 retLogin = {"OK" : True}
         else:
             retLogin = {"OK": False}
