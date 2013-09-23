@@ -76,12 +76,12 @@ class restRPI:
                     sessionDB.autocommit = True
                     
                 curseur = sessionDB.cursor(cursor_factory = psycopg2.extras.DictCursor)
-                cherrypy.log("debug2")
+                
                 #if donnees:
                  #   curseur.execute(requete, donnees)
                 #else:
                 curseur.execute(requete)
-
+                cherrypy.log("debug2")
                 if output:
                     cherrypy.log(curseur.fetchall())
                     ret = {"OK" : True, "res" : curseur.fetchall()}
