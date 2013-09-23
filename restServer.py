@@ -59,8 +59,8 @@ class restRPI:
         
         if 'query' and 'username' and 'password' in params:
             if params['query'] == 'login':
-                requete = """SELECT "password" FROM "Utilisateurs" WHERE "login" = '""" + str(params['username'])  + """';"""
-                donnees = False
+                requete = """SELECT "password" FROM "Utilisateurs" WHERE "login" = %s;"""
+                donnees = (params['username'],)
                 output = True
             elif params['query'] == 'ajouterMembre':
                 requete = """INSERT INTO "Utilisateurs" ("login", "password") VALUES (%s, %s);"""
@@ -71,20 +71,17 @@ class restRPI:
             cherrypy.log("donnees :" + str(donnees))
             try:
                 sessionDB = psycopg2.connect(host = self.__host, port = self.__port, dbname = self.__dbname, user = self.__user, password = self.__password)
-                cherrypy.log("debug")
+                
                 if not output:
                     sessionDB.autocommit = True
                     
                 curseur = sessionDB.cursor(cursor_factory = psycopg2.extras.DictCursor)
+                curseur.execute(requete, donnees)
                 
-                #if donnees:
-                 #   curseur.execute(requete, donnees)
-                #else:
-                curseur.execute(requete)
-                cherrypy.log("debug2")
                 if output:
-                    cherrypy.log(curseur.fetchall())
-                    ret = {"OK" : True, "res" : curseur.fetchall()}
+                    #cherrypy.log(curseur.fetchall())
+                    #ret = {"OK" : True, "res" : curseur.fetchall()}
+                    ret = {'OK' : True}
                 else:
                     ret = {'OK' : True}
                 
