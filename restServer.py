@@ -133,24 +133,56 @@ class restRPI:
         
     @expose
     def getListeDD(self):    
-        ret = {}
+        ret = {"OK" : False}
         boolDD = True
         i = 2
         cmd = "sudo fdisk -l | grep /dev/sda | sed -n " 
     
-        while boolDD:
-            cmd += str(i) + "p"
-            cherrypy.log("cmd : " + cmd)
-            output = subprocess.check_output(cmd, shell = True)
-            if not output:
-                boolDD = False
-            else:
-                ret[i-2] = " ".join(output.split())
-            i += 1    
-            cmd = cmd[0:-2]
+        try:
+            while boolDD:
+                cmd += str(i) + "p"
+                cherrypy.log("cmd : " + cmd)
+                output = subprocess.check_output(cmd, shell = True)
+                if not output:
+                    boolDD = False
+                else:
+                    ret["OK"] = True
+                    ret[i-2] = " ".join(output.split())
+                i += 1    
+                cmd = cmd[0:-2]
+            
+            if not ret["OK"]:
+                ret["Erreur"] = "Aucun disque externe détecté"
+        except Exception as e:
+            ret = {"OK" : False}
+            ret['Erreur'] = "Erreur lors de l'obtention de la liste des DD"
+            cherrypy.log(str(e))
             
         return json.dumps(ret)
+    
+    @expose
+    def isMounted(self):      
+        try:
+            params = json.loads(cherrypy.request.body.readline())
+        except Exception as e:
+            ret = {"OK" : False}
+            ret['Erreur'] = "Paramètres invalides"
+            cherrypy.log(str(e))
+            return json.dumps(ret)
+        
+        cmd = "df -aTh | grep " + params["repertoire"]
+        
+        try:
+            if subprocess.check_output(cmd, shell = True):
+                ret = {"OK" : True, "monte" : True}
+            else:
+                ret = {"OK" : True, "monte" : False}
+        except Exception as e:
+            ret = {"OK" : False}
+            ret["Erreur"] = "Erreur lors de la vérification du répertoire donné"
+            cherrypy.log(str(e))
             
+        return json.dumps(ret)
       
     @expose
     def downloadTorrent(self):
