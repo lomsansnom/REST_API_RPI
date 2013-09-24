@@ -139,7 +139,7 @@ class restRPI:
         cmd = "sudo fdisk -l | grep /dev/sda | sed -n " 
     
         while boolDD:
-            cmd += i + "p"
+            cmd += str(i) + "p"
             i += 1
             ret[i-2] = subprocess.check_output(cmd)
             cmd = cmd[0:-2]
