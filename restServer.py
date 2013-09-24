@@ -136,16 +136,16 @@ class restRPI:
         ret = {}
         boolDD = True
         i = 2
-        cmd = "sudo fdisk -l | grep '/dev/sda' | sed -n " 
-    
-        while boolDD:
-            cmd += str(i) + "p"
-            cherrypy.log("cmd : " + cmd)
-            ret[i-2] = subprocess.check_output(cmd)
-            if not ret[i-2]:
-                boolDD = False
-            i += 1    
-            cmd = cmd[0:-2]
+        #cmd = "sudo fdisk -l | grep '/dev/sda' | sed -n " 
+        cmd = "sudo fdisk -l"
+        #while boolDD:
+         #   cmd += str(i) + "p"
+        cherrypy.log("cmd : " + cmd)
+        ret[i-2] = subprocess.check_output(cmd)
+            #if not ret[i-2]:
+             #   boolDD = False
+            #i += 1    
+          #  cmd = cmd[0:-2]
             
         return json.dumps(ret)
             
