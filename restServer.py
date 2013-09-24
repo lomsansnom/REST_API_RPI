@@ -7,6 +7,7 @@ import json
 import RPi.GPIO as gpio
 import psycopg2
 import psycopg2.extras
+import transmissionrpc
 
 class restRPI:
     
@@ -17,6 +18,11 @@ class restRPI:
     __user = "lomsansnom"
     __password = "postgres"
     
+    __transmissionHost = "127.0.0.1"
+    __transmissionPort = 9091
+    __transmissionUser = "pi"
+    __transmissionPassword = "catal48"
+
     def __init__(self):
         cherrypy.response.headers['Content-Type'] = self.__contentType
         
@@ -124,7 +130,29 @@ class restRPI:
         
         return json.dumps(retLogin)
         
-
+        
+    @expose
+    def downloadTorrent(self):
+        transmissionClient = transmissionrpc.Client(self.__transmissionHost, self.__transmissionPort, self.__transmissionUser, self.__transmissionPassword)
+        
+        try:
+            params = json.loads(cherrypy.request.body.readline())
+        except Exception as e:
+            ret = {"OK" : False}
+            ret['Erreur'] = "Paramètres invalides"
+            cherrypy.log(str(e))
+            return json.dumps(ret)
+        
+        try:
+            transmissionClient.add_torrent(params['torrent'], download_dir = params['repertoire'])
+            ret = {"OK" : True}
+        except Exception as e:
+            ret = {"OK" : False}
+            ret['Erreur'] = "Erreur lors de l'ajout du torrent"
+            cherrypy.log(str(e))
+            
+        return json.dumps(ret)
+        
 conf={  
         'global':{
 
