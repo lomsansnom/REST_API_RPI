@@ -176,9 +176,9 @@ class restRPI:
             output = subprocess.check_output(cmd, shell = True)
             if output:
                 ret = {"OK" : True, "monte" : True}
+                ret["monteSur"] = output
             else:
                 ret = {"OK" : True, "monte" : False}
-                ret["monteSur"] = output
         except Exception as e:
             ret = {"OK" : False}
             ret["Erreur"] = "Erreur lors de la vérification du répertoire donné"
