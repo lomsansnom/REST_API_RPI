@@ -176,7 +176,7 @@ class restRPI:
             output = subprocess.check_output(cmd, shell = True)
             if output:
                 ret = {"OK" : True, "monte" : True}
-                ret["monteSur"] = output
+                ret["monteSur"] = output.strip()
             else:
                 ret = {"OK" : True, "monte" : False}
         except Exception as e:
