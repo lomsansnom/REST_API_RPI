@@ -170,13 +170,15 @@ class restRPI:
             cherrypy.log(str(e))
             return json.dumps(ret)
         
-        cmd = "df -aTh | grep " + params["repertoire"]
+        cmd = "df -aTh | grep " + params["repertoire"] + " | awk '{print$7}'"
         
         try:
-            if subprocess.check_output(cmd, shell = True):
+            output = subprocess.check_output(cmd, shell = True)
+            if output:
                 ret = {"OK" : True, "monte" : True}
             else:
                 ret = {"OK" : True, "monte" : False}
+                ret["monteSur"] = output
         except Exception as e:
             ret = {"OK" : False}
             ret["Erreur"] = "Erreur lors de la vérification du répertoire donné"
