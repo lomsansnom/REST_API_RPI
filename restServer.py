@@ -8,6 +8,7 @@ import RPi.GPIO as gpio
 import psycopg2
 import psycopg2.extras
 import transmissionrpc
+import subprocess
 
 class restRPI:
     
@@ -130,7 +131,22 @@ class restRPI:
         
         return json.dumps(retLogin)
         
+    @expose
+    def getListeDD(self):    
+        ret = {}
+        boolDD = True
+        i = 2
+        cmd = "sudo fdisk -l | grep /dev/sda | sed -n " 
+    
+        while boolDD:
+            cmd += i + "p"
+            i += 1
+            ret[i-2] = subprocess.check_output(cmd)
+            cmd = cmd[0:-2]
         
+        return json.dumps(ret)
+            
+      
     @expose
     def downloadTorrent(self):
         transmissionClient = transmissionrpc.Client(self.__transmissionHost, self.__transmissionPort, self.__transmissionUser, self.__transmissionPassword)
