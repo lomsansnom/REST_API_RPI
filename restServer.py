@@ -136,7 +136,7 @@ class restRPI:
         ret = {}
         boolDD = True
         i = 2
-        cmd = "sudo fdisk -l | grep /dev/sda | sed -n " 
+        cmd = "sudo fdisk -l | grep '/dev/sda' | sed -n " 
     
         while boolDD:
             cmd += str(i) + "p"
