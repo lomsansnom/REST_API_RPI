@@ -141,7 +141,7 @@ class restRPI:
         #while boolDD:
          #   cmd += str(i) + "p"
         cherrypy.log("cmd : " + cmd)
-        cherrypy.log(subprocess.check_output(cmd))
+        cherrypy.log(subprocess.check_output(cmd, shell=True))
         #ret[i-2] = subprocess.check_output(cmd)
             #if not ret[i-2]:
              #   boolDD = False
