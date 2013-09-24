@@ -145,7 +145,7 @@ class restRPI:
             if not output:
                 boolDD = False
             else:
-                ret[i-2] = output
+                ret[i-2] = " ".join(output.split())
             i += 1    
             cmd = cmd[0:-2]
             
