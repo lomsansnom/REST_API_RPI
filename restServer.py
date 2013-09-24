@@ -141,9 +141,11 @@ class restRPI:
         while boolDD:
             cmd += str(i) + "p"
             cherrypy.log("cmd : " + cmd)
-            ret[i-2] = subprocess.check_output(cmd, shell = True)
-            if not ret[i-2]:
+            output = subprocess.check_output(cmd, shell = True)
+            if not output:
                 boolDD = False
+            else:
+                ret[i-2] = output
             i += 1    
             cmd = cmd[0:-2]
             
