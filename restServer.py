@@ -40,7 +40,7 @@ class restRPI:
         if  "numGpio" and "etat" and "mode" in params :
             i = 0
             while i < 8:
-                if params['numGpio'] == __numeroGpio[i]:
+                if params['numGpio'] == self.__numeroGpio[i]:
                     numGpio = i
                     i = 8
                 i += 1
@@ -65,7 +65,7 @@ class restRPI:
         ret = {}
         cmd = "gpio read "
         for i in xrange(8):
-            ret[__numeroGpio[i]] = subprocess.check_output(cmd + str(i), shell = True).rstrip()
+            ret[self.__numeroGpio[i]] = subprocess.check_output(cmd + str(i), shell = True).rstrip()
         
         return json.dumps(ret)
         
