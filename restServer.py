@@ -4,7 +4,6 @@
 import cherrypy
 from cherrypy import expose
 import json
-import RPi.GPIO as gpio
 import psycopg2
 import psycopg2.extras
 import transmissionrpc
@@ -18,6 +17,8 @@ class restRPI:
     __dbname = "lomsansnom"
     __user = "lomsansnom"
     __password = "postgres"
+    
+    __numeroGpio = ["onze", "douze", "treize", "quinze", "seize", "dixhuit", "vingtdeux", "sept"]
     
     __transmissionHost = "127.0.0.1"
     __transmissionPort = 9091
@@ -36,28 +37,35 @@ class restRPI:
             ret['Erreur'] = "Paramètres invalides"
             return json.dumps(ret)
         
-        if  "numGpio" and "etat" in params :
+        if  "numGpio" and "etat" and "mode" in params :
+            i = 0
+            while i < 8:
+                if params['numGpio'] == __numeroGpio[i]:
+                    numGpio = i
+                    i = 8
+                i += 1
+                
             try:
-                gpio.setmode(gpio.BOARD)
-                gpio.setup(params['numGpio'],gpio.OUT)
-                gpio.output(params['numGpio'], params['etat'])
+                subprocess.check_call("gpio mode " + numGpio + " " + params['mode'])
+                subprocess.check_call("gpio write " + numGpio + " " + params['etat'])
                 ret = {"OK" : True}
-            except:
+            except Exception as e:
                 ret = {"OK" : False}
                 ret['Erreur'] = "Echec lors du changement d'état du GPIO"
+                cherrypy.log(str(e))
+                
         else :
             ret = {"OK" : False}
-            ret['Erreur'] = "numGpio et etat sont obligatoires"
+            ret['Erreur'] = "numGpio, mode, et etat sont obligatoires"
         
         return json.dumps(ret)
     
     @expose
     def getAllGpio(self):
-        numeroGpio = ["onze", "douze", "treize", "quinze", "seize", "dixhuit", "vingtdeux", "sept"]
         ret = {}
         cmd = "gpio read "
         for i in xrange(8):
-            ret[numeroGpio[i]] = subprocess.check_output(cmd + str(i), shell = True).rstrip()
+            ret[__numeroGpio[i]] = subprocess.check_output(cmd + str(i), shell = True).rstrip()
         
         return json.dumps(ret)
         
