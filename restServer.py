@@ -222,7 +222,7 @@ class restRPI:
         
         if "chemin" in params:
             try:
-                subprocess.check_call("mount " + params["chemin"] + " " + self.__cheminMount, shell=True)
+                subprocess.check_call("sudo mount " + params["chemin"] + " " + self.__cheminMount, shell=True)
                 ret = {"OK" : True, "monteSur" : self.__cheminMount}
             except Exception as e:
                 ret = {"OK" : False}
@@ -230,7 +230,7 @@ class restRPI:
                 cherrypy.log(str(e)) 
         else:
             ret = {"OK" : False}
-            ret['Erreur'] = "chemin est obligatoires"
+            ret['Erreur'] = "chemin est obligatoire"
         
         return json.dumps(ret)
             
