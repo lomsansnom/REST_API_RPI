@@ -67,7 +67,7 @@ class restRPI:
         return json.dumps(ret)
     
     @expose
-    def getAllGpio(self):
+    def getEtatGpios(self):
         ret = {}
         cmd = "gpio read "
         for i in xrange(8):
