@@ -56,7 +56,7 @@ class restRPI:
         numeroGpio = ["onze", "douze", "treize", "quinze", "seize", "dixhuit", "vingtdeux", "sept"]
         ret = {}
         cmd = "gpio read "
-        for i in xrange(7):
+        for i in xrange(8):
             ret[numeroGpio[i]] = subprocess.check_output(cmd + str(i), shell = True)
         
         return json.dumps(ret)
