@@ -114,10 +114,7 @@ class restRPI:
             ret = {"OK" : False}
             ret['Erreur'] = "query, username et password sont obligatoires"
         
-        if not post :
-            return ret
-        else:
-            return json.dumps(ret)
+        return ret
     
    
     @expose
