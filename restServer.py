@@ -75,17 +75,7 @@ class restRPI:
         
         return json.dumps(ret)
         
-    @expose
-    def connectDB(self, post=True, params=None):
-        try:
-            if post:
-                params = json.loads(cherrypy.request.body.readline())
-        except Exception as e:
-            ret = {"OK" : False}
-            ret['Erreur'] = "Paramètres invalides"
-            cherrypy.log(str(e))
-            return json.dumps(ret)
-        
+    def connectDB(self, params=None):
         cherrypy.log("paramètres : " + str(params))
         
         if 'query' and 'username' and 'password' in params:
@@ -129,6 +119,23 @@ class restRPI:
         else:
             return json.dumps(ret)
     
+   
+    @expose
+    def ajouterMembre(self):
+        try:
+            params = json.loads(cherrypy.request.body.readline())
+        except Exception as e:
+            ret = {"OK" : False}
+            ret['Erreur'] = "Paramètres invalides"
+            cherrypy.log(str(e))
+            return json.dumps(ret)
+        
+        params['query'] = 'ajouterMembre'
+        ret = self.connectDB(params)
+        cherrypy.log(str(ret))
+        
+        return ret
+        
     @expose
     def login(self):
         try:
@@ -140,7 +147,7 @@ class restRPI:
             return json.dumps(retLogin)
         
         params['query'] = 'login'
-        ret = self.connectDB(False, params)
+        ret = self.connectDB(params)
         cherrypy.log(str(ret))
         
         if ret['OK']:
