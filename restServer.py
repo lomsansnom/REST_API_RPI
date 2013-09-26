@@ -19,6 +19,7 @@ class restRPI:
     __password = "postgres"
     
     __numeroGpio = ["onze", "douze", "treize", "quinze", "seize", "dixhuit", "vingtdeux", "sept"]
+    __cheminMount = "/media/usb"
     
     __transmissionHost = "127.0.0.1"
     __transmissionPort = 9091
@@ -208,7 +209,31 @@ class restRPI:
             cherrypy.log(str(e))
             
         return json.dumps(ret)
-      
+    
+    @expose
+    def mountDD(self):
+        try:
+            params = json.loads(cherrypy.request.body.readline())
+        except Exception as e:
+            ret = {"OK" : False}
+            ret['Erreur'] = "Paramètres invalides"
+            cherrypy.log(str(e))
+            return json.dumps(ret)
+        
+        if "chemin" in params:
+            try:
+                subprocess.check_call("mount " + params["chemin"] + " " + self.__cheminMount, shell=True)
+                ret = {"OK" : True, "monteSur" : self.__cheminMount}
+            except Exception as e:
+                ret = {"OK" : False}
+                ret["Erreur"] = "Erreur lors du montage du disque"
+                cherrypy.log(str(e)) 
+        else:
+            ret = {"OK" : False}
+            ret['Erreur'] = "chemin est obligatoires"
+        
+        return json.dumps(ret)
+            
     @expose
     def downloadTorrent(self):
         transmissionClient = transmissionrpc.Client(self.__transmissionHost, self.__transmissionPort, self.__transmissionUser, self.__transmissionPassword)
