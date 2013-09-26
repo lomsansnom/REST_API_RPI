@@ -46,7 +46,7 @@ class restRPI:
                 i += 1
                 
             try:
-                if subprocess.check_output("gpio read " + str(numGpio)).strip() == "1":
+                if subprocess.check_output("gpio read " + str(numGpio), shell=True).strip() == "1":
                     subprocess.check_call("gpio mode " + str(numGpio) + " " + params['mode'])
                     subprocess.check_call("gpio write " + str(numGpio) + " " + str(0))
                 else:
