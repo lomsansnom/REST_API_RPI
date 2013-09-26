@@ -52,6 +52,16 @@ class restRPI:
         return json.dumps(ret)
     
     @expose
+    def getAllGpio(self):
+        numeroGpio = ["onze", "douze", "treize", "quinze", "seize", "dixhuit", "vingtdeux", "sept"]
+        ret = {}
+        cmd = "gpio read "
+        for i in xrange(7):
+            ret[numeroGpio[i]] = subprocess.check_output(cmd + str(i), shell = True)
+        
+        return json.dumps(ret)
+        
+    @expose
     def connectDB(self, post=True, params=None):
         try:
             if post:
