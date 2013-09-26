@@ -37,7 +37,7 @@ class restRPI:
             ret['Erreur'] = "Paramètres invalides"
             return json.dumps(ret)
         
-        if  "numGpio" and "etat" and "mode" in params :
+        if "numGpio" and "mode" in params :
             i = 0
             while i < 8:
                 if params['numGpio'] == self.__numeroGpio[i]:
@@ -46,9 +46,14 @@ class restRPI:
                 i += 1
                 
             try:
-                subprocess.check_call("gpio mode " + numGpio + " " + params['mode'])
-                subprocess.check_call("gpio write " + numGpio + " " + params['etat'])
+                if subprocess.check_output("gpio read " + str(numGpio)):
+                    subprocess.check_call("gpio mode " + str(numGpio) + " " + params['mode'])
+                    subprocess.check_call("gpio write " + str(numGpio) + " " + str(0))
+                else:
+                    subprocess.check_call("gpio mode " + str(numGpio) + " " + params['mode'])
+                    subprocess.check_call("gpio write " + str(numGpio) + " " + str(1))
                 ret = {"OK" : True}
+                
             except Exception as e:
                 ret = {"OK" : False}
                 ret['Erreur'] = "Echec lors du changement d'état du GPIO"
@@ -56,7 +61,7 @@ class restRPI:
                 
         else :
             ret = {"OK" : False}
-            ret['Erreur'] = "numGpio, mode, et etat sont obligatoires"
+            ret['Erreur'] = "numGpio et mode sont obligatoires"
         
         return json.dumps(ret)
     
