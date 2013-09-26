@@ -47,11 +47,11 @@ class restRPI:
                 
             try:
                 if subprocess.check_output("gpio read " + str(numGpio), shell=True).strip() == "1":
-                    subprocess.check_call("gpio mode " + str(numGpio) + " " + params['mode'])
-                    subprocess.check_call("gpio write " + str(numGpio) + " " + str(0))
+                    subprocess.check_call("gpio mode " + str(numGpio) + " " + params['mode'], shell=True)
+                    subprocess.check_call("gpio write " + str(numGpio) + " " + str(0), shell=True)
                 else:
-                    subprocess.check_call("gpio mode " + str(numGpio) + " " + params['mode'])
-                    subprocess.check_call("gpio write " + str(numGpio) + " " + str(1))
+                    subprocess.check_call("gpio mode " + str(numGpio) + " " + params['mode'], shell=True)
+                    subprocess.check_call("gpio write " + str(numGpio) + " " + str(1), shell=True)
                 ret = {"OK" : True}
                 
             except Exception as e:
