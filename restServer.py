@@ -131,7 +131,7 @@ class restRPI:
         ret = self.connectDB(params)
         cherrypy.log(str(ret))
         
-        return ret
+        return json.dumps(ret)
         
     @expose
     def login(self):
