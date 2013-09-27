@@ -47,6 +47,7 @@ class restRPI:
                 i += 1
                 
             try:
+                cherrypy.log(str(params))
                 if subprocess.check_output("gpio read " + str(numGpio), shell=True).strip() == "1":
                     subprocess.check_call("gpio mode " + str(numGpio) + " " + params['mode'], shell=True)
                     subprocess.check_call("gpio write " + str(numGpio) + " " + str(0), shell=True)
