@@ -186,6 +186,7 @@ class restRPI:
                 cmd = cmd[0:-2]
             
             if not ret["OK"]:
+                ret["OK"] = True
                 ret["Erreur"] = "Aucun disque externe détecté"
         except Exception as e:
             ret = {"OK" : False}
