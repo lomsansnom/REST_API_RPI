@@ -30,7 +30,7 @@ class restRPI:
         cherrypy.response.headers['Content-Type'] = self.__contentType
         
     @expose   
-    def setGpio(self):
+    def changerEtatGpio(self):
         try:
             params = json.loads(cherrypy.request.body.readline())
         except:
