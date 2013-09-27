@@ -41,7 +41,7 @@ class restRPI:
         if "numGpio" and "mode" in params :
             i = 0
             while i < 8:
-                if params['numGpio'] == self.__numeroGpio[i]:
+                if params['numGpio'].lower() == self.__numeroGpio[i]:
                     numGpio = i
                     i = 8
                 i += 1
