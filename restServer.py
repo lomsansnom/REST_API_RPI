@@ -8,6 +8,7 @@ import psycopg2
 import psycopg2.extras
 import transmissionrpc
 import subprocess
+import bcrypt
 
 class restRPI:
     
@@ -130,6 +131,9 @@ class restRPI:
             return json.dumps(ret)
         
         params['query'] = 'ajouterMembre'
+        params['password'] = bcrypt.hashpw(params['password'], bcrypt.gensalt())
+        cherrypy.log(params['password'])
+        
         ret = self.connectDB(params)
         cherrypy.log(str(ret))
         
@@ -151,7 +155,7 @@ class restRPI:
         
         if ret['OK']:
             if ret['res']:
-                if ret['res'][0]['password'] == params['password']:
+                if ret['res'][0]['password'] == bcrypt.hashpw(params['password'], ret['res'][0]['password']):
                     retLogin = {"OK" : True}
                 else:
                     retLogin = {"OK": False}
