@@ -9,6 +9,7 @@ import psycopg2.extras
 import transmissionrpc
 import subprocess
 import bcrypt
+import pygame
 
 class restRPI:
     
@@ -29,6 +30,13 @@ class restRPI:
 
     def __init__(self):
         cherrypy.response.headers['Content-Type'] = self.__contentType
+    
+    @expose
+    def testMusique(self):
+        cherrypy.log("lecture de 103-onerepublic-secrets.mp3")
+        pygame.mixer.init()
+        pygame.mixer.music.load("/home/pi/Player/" + 103-onerepublic-secrets.mp3)
+        pygame.mixer.music.play()
         
     @expose   
     def changerEtatGpio(self):
